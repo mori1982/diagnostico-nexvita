@@ -5,7 +5,7 @@ window.DIAG_CONFIG = {
   // WhatsApp do Mori, só dígitos com DDI+DDD (ex.: 5511999999999). PLACEHOLDER até a Virginia mandar.
   WHATSAPP_NUMBER: "5511936244354",
   // ID do Meta Pixel (só dígitos). Vazio = pixel não carrega.
-  META_PIXEL_ID: "",
+  META_PIXEL_ID: "1092369830292295",
   // ID do GA4 (G-XXXX). Vazio = sem GA4 / generate_lead.
   GA4_ID: ""
 };
