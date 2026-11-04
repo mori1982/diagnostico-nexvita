@@ -1,0 +1,78 @@
+/* NexVita — tokens de design v1.0 (fonte da verdade: nexvita-identidade-visual.md) */
+@import url("https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Inter:wght@400;500;600;700&display=swap");
+:root {
+  /* Paleta base */
+  --nv-petroleo: #07383D;
+  --nv-petroleo-profundo: #04292D;
+  --nv-petroleo-medio: #165559;
+  --nv-aqua: #9FC3C4;
+  --nv-aqua-claro: #C4D6D7;
+  --nv-nevoa: #EEF3F3;
+  --nv-papel: #FAFAFA;
+  --nv-branco: #FFFFFF;
+  --nv-tinta: #141414;
+  --nv-cinza: #5C5C5C;
+  --nv-linha: #DBDBDB;
+  --nv-sucesso: #1F7A4D;
+  --nv-sucesso-bg: #E4F3EA;
+  --nv-alerta: #8A5A00;
+  --nv-alerta-bg: #FBF0D9;
+  --nv-erro: #B42318;
+  --nv-erro-bg: #FDE8E6;
+  --nv-info: #165559;
+  --nv-info-bg: #E3EEEF;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Hedvig Letters Serif", Georgia, "Times New Roman", serif;
+  --font-num: "Inter", system-ui, sans-serif; /* números: font-variant-numeric: tabular-nums lining-nums */
+  --fs-12: 12px; --fs-14: 14px; --fs-16: 16px; --fs-18: 18px; --fs-20: 20px; --fs-24: 24px; --fs-32: 32px; --fs-40: 40px; --fs-56: 56px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(7,56,61,.06), 0 1px 3px rgba(7,56,61,.08);
+  --shadow-2: 0 4px 12px rgba(7,56,61,.08), 0 2px 4px rgba(7,56,61,.06);
+  --shadow-3: 0 16px 40px rgba(7,56,61,.14);
+  --container-max: 1280px; --container-form: 760px; --sidebar-w: 248px;
+  --dur-fast: 120ms; --dur: 200ms; --ease: cubic-bezier(.2,.0,.0,1);
+  /* Semânticos — tema CLARO (padrão) */
+  --c-bg: var(--nv-papel);
+  --c-surface: var(--nv-branco);
+  --c-surface-2: var(--nv-nevoa);
+  --c-border: var(--nv-linha);
+  --c-text: var(--nv-tinta);
+  --c-text-2: var(--nv-cinza);
+  --c-primary: var(--nv-petroleo);
+  --c-primary-hover: var(--nv-petroleo-profundo);
+  --c-on-primary: #FFFFFF;
+  --c-accent: var(--nv-petroleo-medio);
+  --c-accent-soft: var(--nv-aqua-claro);
+  --c-focus: var(--nv-petroleo-medio);
+  --c-success: var(--nv-sucesso);
+  --c-success-bg: var(--nv-sucesso-bg);
+  --c-warning: var(--nv-alerta);
+  --c-warning-bg: var(--nv-alerta-bg);
+  --c-danger: var(--nv-erro);
+  --c-danger-bg: var(--nv-erro-bg);
+  color-scheme: light;
+}
+/* Tema ESCURO — opcional, somente em aplicativos */
+[data-theme="dark"] {
+  --c-bg: #071C1F;
+  --c-surface: #0C292D;
+  --c-surface-2: #123539;
+  --c-border: #22474B;
+  --c-text: #ECF3F3;
+  --c-text-2: #A7BEBF;
+  --c-primary: #8CCFCB;
+  --c-primary-hover: #A9DEDA;
+  --c-on-primary: #04292D;
+  --c-accent: #8CCFCB;
+  --c-accent-soft: #1A4448;
+  --c-focus: #8CCFCB;
+  --c-success: #6FD3A0;
+  --c-success-bg: #0F3527;
+  --c-warning: #F2C46D;
+  --c-warning-bg: #3A2E12;
+  --c-danger: #FF9B8F;
+  --c-danger-bg: #3D1A17;
+  --shadow-1: 0 1px 2px rgba(0,0,0,.4); --shadow-2: 0 4px 12px rgba(0,0,0,.45); --shadow-3: 0 16px 40px rgba(0,0,0,.55);
+  color-scheme: dark;
+}

@@ -1,0 +1,436 @@
+{
+  "version": "v1-rascunho (Virginia, aguardando revisão do Mori)",
+  "scoring": {
+    "maxPerQuestion": 4,
+    "insightThresholds": {
+      "mid": 40,
+      "high": 80
+    }
+  },
+  "areas": [
+    {
+      "id": "atendimento",
+      "name": "Atendimento e experiência do paciente",
+      "insights": {
+        "low": "Pacientes estão sendo perdidos antes mesmo da consulta.",
+        "mid": "O atendimento é bom, mas ainda depende de pessoas, não de padrão.",
+        "high": "Sua experiência do paciente é um diferencial; proteja isso ao crescer."
+      }
+    },
+    {
+      "id": "equipe",
+      "name": "Equipe",
+      "insights": {
+        "low": "Você está fazendo a gestão que uma liderança deveria fazer.",
+        "mid": "A equipe funciona, mas ainda falta clareza e treinamento.",
+        "high": "Equipe estruturada é o que permite a clínica crescer sem você em tudo."
+      }
+    },
+    {
+      "id": "processos",
+      "name": "Processos e agenda",
+      "insights": {
+        "low": "Sem processos, cada dia é um improviso caro.",
+        "mid": "Os processos existem, falta torná-los regra.",
+        "high": "Processos sólidos; hora de automatizar o que é repetitivo."
+      }
+    },
+    {
+      "id": "financeiro",
+      "name": "Financeiro",
+      "insights": {
+        "low": "Sem números claros, decisões viram apostas.",
+        "mid": "Você tem noção, mas falta precisão para decidir com segurança.",
+        "high": "Financeiro sob controle; use esses dados para crescer com margem."
+      }
+    },
+    {
+      "id": "crescimento",
+      "name": "Crescimento",
+      "insights": {
+        "low": "O crescimento está no acaso.",
+        "mid": "Há movimento, mas sem direção medida.",
+        "high": "Você cresce com método; agora é escalar o que funciona."
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "area": "atendimento",
+      "text": "Quanto tempo o paciente espera por resposta no WhatsApp da clínica?",
+      "options": [
+        {
+          "label": "Mais de um dia",
+          "points": 0
+        },
+        {
+          "label": "Algumas horas",
+          "points": 1
+        },
+        {
+          "label": "Até 1 hora",
+          "points": 3
+        },
+        {
+          "label": "Minutos, com padrão definido",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "area": "atendimento",
+      "text": "Vocês medem a satisfação do paciente?",
+      "options": [
+        {
+          "label": "Nunca",
+          "points": 0
+        },
+        {
+          "label": "Só quando reclamam",
+          "points": 1
+        },
+        {
+          "label": "Às vezes, sem método",
+          "points": 3
+        },
+        {
+          "label": "Sim, com pesquisa e acompanhamento",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "area": "atendimento",
+      "text": "Quanto da agenda é perdido por falta ou desmarcação?",
+      "options": [
+        {
+          "label": "Não sei",
+          "points": 0
+        },
+        {
+          "label": "Mais de 20%",
+          "points": 1
+        },
+        {
+          "label": "Entre 10% e 20%",
+          "points": 3
+        },
+        {
+          "label": "Menos de 10% com confirmação ativa",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "area": "equipe",
+      "text": "As funções de cada pessoa estão escritas e claras?",
+      "options": [
+        {
+          "label": "Não",
+          "points": 0
+        },
+        {
+          "label": "Só na cabeça do dono",
+          "points": 1
+        },
+        {
+          "label": "Parcialmente",
+          "points": 3
+        },
+        {
+          "label": "Sim, com descrições e responsáveis",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "area": "equipe",
+      "text": "Como é o treinamento de quem entra?",
+      "options": [
+        {
+          "label": "Aprende fazendo",
+          "points": 0
+        },
+        {
+          "label": "Alguém explica quando dá",
+          "points": 1
+        },
+        {
+          "label": "Tem um roteiro básico",
+          "points": 3
+        },
+        {
+          "label": "Treinamento estruturado e avaliado",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "area": "equipe",
+      "text": "Quanto do seu tempo como médico vai para resolver problemas de equipe?",
+      "options": [
+        {
+          "label": "A maior parte",
+          "points": 0
+        },
+        {
+          "label": "Bastante",
+          "points": 1
+        },
+        {
+          "label": "Pouco",
+          "points": 3
+        },
+        {
+          "label": "Quase nada, tenho liderança no operacional",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q7",
+      "area": "processos",
+      "text": "Os processos principais (agendamento, recepção, pós-consulta) estão documentados?",
+      "options": [
+        {
+          "label": "Não",
+          "points": 0
+        },
+        {
+          "label": "Alguns, desatualizados",
+          "points": 1
+        },
+        {
+          "label": "A maioria",
+          "points": 3
+        },
+        {
+          "label": "Todos, revisados",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q8",
+      "area": "processos",
+      "text": "Como a agenda é gerenciada?",
+      "options": [
+        {
+          "label": "Papel ou improviso",
+          "points": 0
+        },
+        {
+          "label": "Planilha ou agenda simples",
+          "points": 1
+        },
+        {
+          "label": "Sistema, mas pouco usado",
+          "points": 3
+        },
+        {
+          "label": "Sistema integrado com confirmação e lembretes",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q9",
+      "area": "processos",
+      "text": "Se você ficar 15 dias fora, a clínica funciona?",
+      "options": [
+        {
+          "label": "Para",
+          "points": 0
+        },
+        {
+          "label": "Funciona com muitos problemas",
+          "points": 1
+        },
+        {
+          "label": "Funciona com alguns ajustes",
+          "points": 3
+        },
+        {
+          "label": "Funciona normalmente",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "area": "financeiro",
+      "text": "As contas da clínica e as pessoais são separadas?",
+      "options": [
+        {
+          "label": "Não",
+          "points": 0
+        },
+        {
+          "label": "Em parte",
+          "points": 1
+        },
+        {
+          "label": "Sim, mas sem controle mensal",
+          "points": 3
+        },
+        {
+          "label": "Sim, com fechamento mensal",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "area": "financeiro",
+      "text": "Você sabe o lucro real da clínica no último mês?",
+      "options": [
+        {
+          "label": "Não faço ideia",
+          "points": 0
+        },
+        {
+          "label": "Tenho uma noção",
+          "points": 1
+        },
+        {
+          "label": "Sei, com atraso",
+          "points": 3
+        },
+        {
+          "label": "Sei com precisão e acompanho",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "area": "financeiro",
+      "text": "Você conhece o custo por consulta ou procedimento?",
+      "options": [
+        {
+          "label": "Não",
+          "points": 0
+        },
+        {
+          "label": "Mais ou menos",
+          "points": 1
+        },
+        {
+          "label": "De alguns",
+          "points": 3
+        },
+        {
+          "label": "De todos, e uso na precificação",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "area": "crescimento",
+      "text": "De onde vêm os novos pacientes?",
+      "options": [
+        {
+          "label": "Não sei",
+          "points": 0
+        },
+        {
+          "label": "Só indicação espontânea",
+          "points": 1
+        },
+        {
+          "label": "Indicação e redes, sem acompanhamento",
+          "points": 3
+        },
+        {
+          "label": "Canais medidos e com estratégia",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "area": "crescimento",
+      "text": "Vocês têm metas de faturamento e acompanham?",
+      "options": [
+        {
+          "label": "Não",
+          "points": 0
+        },
+        {
+          "label": "Na cabeça",
+          "points": 1
+        },
+        {
+          "label": "Escritas, pouco acompanhadas",
+          "points": 3
+        },
+        {
+          "label": "Escritas e revisadas mensalmente",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "area": "crescimento",
+      "text": "Existe um plano para os próximos 12 meses da clínica?",
+      "options": [
+        {
+          "label": "Não",
+          "points": 0
+        },
+        {
+          "label": "Ideias soltas",
+          "points": 1
+        },
+        {
+          "label": "Plano informal",
+          "points": 3
+        },
+        {
+          "label": "Plano escrito com prioridades",
+          "points": 4
+        }
+      ]
+    }
+  ],
+  "levels": [
+    {
+      "min": 0,
+      "max": 39,
+      "label": "Operação no limite",
+      "description": "A clínica depende de você para tudo, e isso custa tempo, dinheiro e pacientes."
+    },
+    {
+      "min": 40,
+      "max": 59,
+      "label": "Base em construção",
+      "description": "Já existe estrutura, mas os buracos ainda drenam resultado."
+    },
+    {
+      "min": 60,
+      "max": 79,
+      "label": "Gestão em evolução",
+      "description": "A clínica funciona bem, e ajustes certos destravam o próximo nível."
+    },
+    {
+      "min": 80,
+      "max": 100,
+      "label": "Alta performance",
+      "description": "Gestão madura; o foco agora é escalar sem perder o cuidado humano."
+    }
+  ],
+  "invite": {
+    "text": "Sua clínica tirou [NOTA]. Quer entender o que está por trás de cada área e o primeiro passo pra subir essa nota? Fala comigo direto no WhatsApp, eu te explico em 20 minutos.",
+    "signature": "Mori, NexVita",
+    "button": "Quero conversar com o Mori",
+    "whatsappMessage": "Oi Mori, sou [NOME], da [CLINICA]. Fiz o diagnóstico da NexVita e minha clínica tirou [NOTA]. Quero entender melhor."
+  }
+}
