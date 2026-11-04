@@ -140,6 +140,7 @@ function renderContact() {
     r.areas.forEach(a => payload["nota_" + a.id] = a.score);
     state.payload = payload;
     sendInBackground(payload);
+    try { window.NVTrack && NVTrack.lead(); } catch (e) {}
     renderResult();
   };
 }
@@ -192,6 +193,7 @@ function renderResult() {
     <img id="share-prev" class="share-prev" alt="Prévia do card de resultado">
     <button class="btn btn-ghost" id="redo">Refazer diagnóstico</button>
   </section>`);
+  $("#r-wa").addEventListener("click", () => { try { window.NVTrack && NVTrack.contact(); } catch (e) {} });
   $("#dl-feed").onclick = () => downloadCard("feed");
   $("#dl-story").onclick = () => downloadCard("story");
   $("#redo").onclick = () => { state.answers = {}; renderIntro(); };
