@@ -7,6 +7,7 @@ EP = "http://lead.test/exec"
 def run(p, choice, prefix, fail=False):
     b = p.chromium.launch(); pg = b.new_page(viewport={"width":390,"height":844}, device_scale_factor=2, is_mobile=True, has_touch=True)
     got = []
+    pg.add_init_script("localStorage.setItem('nv_consent','denied')")  # banner de cookies fora do caminho
     pg.route("**/config.js", lambda r: r.fulfill(content_type="application/javascript",
         body='window.DIAG_CONFIG={ENDPOINT_URL:"%s",WHATSAPP_NUMBER:"5500000000000"};' % EP))
     def lead(r):
