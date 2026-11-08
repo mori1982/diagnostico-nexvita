@@ -1,5 +1,6 @@
 /* Diagnóstico de Gestão NexVita — v1 front-end (sem dependências)
- * Dados: questions.json. Backend: implementar submitLead(data) (ver README). */
+ * Dados: questions.json. O lead vai em POST para CFG.ENDPOINT_URL.
+ * O botão do resultado abre wa.me; esta página não envia WhatsApp sozinha. */
 "use strict";
 
 /* ============ INTEGRAÇÃO ============ */
