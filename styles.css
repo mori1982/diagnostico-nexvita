@@ -91,6 +91,16 @@ h2{font-size:24px;line-height:1.25}
 .cta-box .btn-primary:hover{background:var(--nv-nevoa)}
 .share-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .share-prev{width:100%;border-radius:var(--radius-md);border:1px solid var(--c-border);display:block}
+/* Bloco institucional (intro e resultado) */
+.stack>.about{margin-top:32px}
+.about{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:28px 24px}
+.about h2{font-size:22px;line-height:1.25;margin-bottom:12px}
+.about p{font-size:15px;line-height:1.6;color:var(--c-text-2)}
+.about p+p{margin-top:12px}
+.about p+h2{margin-top:28px}
+.about strong{font-weight:600;color:var(--c-primary)}
+.about .about-close{border-top:1px solid var(--c-border);padding-top:16px;margin-top:20px}
+.about a{color:var(--c-accent);font-weight:600;white-space:nowrap}
 .tag-ex{display:inline-block;font-size:12px;font-weight:600;background:var(--c-warning-bg);color:var(--c-warning);padding:2px 8px;border-radius:6px}
 @media (min-width:768px){h1{font-size:40px}.hero{padding:48px 40px}.wrap{padding-top:24px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

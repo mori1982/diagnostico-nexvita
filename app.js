@@ -39,6 +39,22 @@ function go(html, focus = true) {
   if (focus) app.focus({ preventScroll: true });
 }
 
+/* ---------- Bloco institucional (texto aprovado; usado na intro e no resultado) ---------- */
+function aboutBlock() {
+  const wa = String(CFG.WHATSAPP_NUMBER || "").replace(/\D/g, "");
+  const phone = wa ? `<a href="https://wa.me/${wa}" target="_blank" rel="noopener">(11) 93624-4354</a>` : "(11) 93624-4354";
+  return `<section class="about" aria-label="Sobre a NexVita">
+    <h2>O que a NexVita é — e o que não é</h2>
+    <p><strong>O que é.</strong> A NexVita é gente no WhatsApp, no tom da sua clínica, trabalhando junto com a equipe e o sistema que você já tem. Começa por um diagnóstico, sem pacote pronto. A partir daí, assume a retaguarda — atendimento, agenda, financeiro e equipe — desenhada para a rotina do seu consultório.</p>
+    <p><strong>O que não é.</strong> Não é um software novo, nem um sistema para você trocar. Não substitui o seu prontuário nem a sua equipe. Não é um pacote fechado igual para toda clínica, e não faz consulta nem conduta médica: o ato médico continua com você.</p>
+    <h2>Sistemas com que já trabalhamos</h2>
+    <p>Já operamos no dia a dia com Feegow, iClinic e Clinicorp, e também com o sistema de agenda, prontuário e financeiro que a sua clínica já usa. Não é preciso trocar de ferramenta para começar.</p>
+    <h2>Sigilo e LGPD</h2>
+    <p>Os dados da sua clínica e dos seus pacientes são tratados com confidencialidade. Assinamos acordo de sigilo (NDA) antes de qualquer acesso a informações operacionais, e conduzimos o trabalho com respeito à LGPD.</p>
+    <p class="about-close">O diagnóstico é gratuito e online. O WhatsApp da equipe NexVita é o ${phone}.</p>
+  </section>`;
+}
+
 /* ---------- 1. Intro ---------- */
 function renderIntro() {
   const d = state.data;
@@ -56,6 +72,7 @@ function renderIntro() {
     <ul class="areas-list">${d.areas.map(a => `<li>${esc(a.name)}</li>`).join("")}</ul>
     <button class="btn btn-primary" id="start">Começar</button>
     <p class="small" style="text-align:center">Gratuito. Sem cadastro para responder.</p>
+    ${aboutBlock()}
   </section>`, false);
   $("#start").onclick = () => { state.i = 0; renderQuestion(); };
 }
@@ -185,6 +202,7 @@ function renderResult() {
       <p style="font-family:var(--font-serif);color:#fff">— ${esc(inv.signature)}</p>
       <a class="btn btn-primary" id="r-wa" href="${waLink(r)}" target="_blank" rel="noopener">${esc(inv.button)}</a>
     </div>
+    ${aboutBlock()}
     <h2 style="margin-top:32px">Compartilhe seu resultado</h2>
     <div class="share-row">
       <button class="btn btn-ghost" id="dl-feed">Baixar post (4:5)</button>
