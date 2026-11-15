@@ -25,8 +25,8 @@ function doPost(e) {
 
     // Validação
     if (!row.nome || !row.clinica || !row.especialidade) return out_('missing_fields');
-    var digits = String(row.whatsapp).replace(/\D/g, '');
-    if (digits.length < 10 || digits.length > 11) return out_('bad_whatsapp');
+    var digits = normalizeBrPhone_(row.whatsapp);
+    if (!isValidBrMobile_(digits)) return out_('bad_whatsapp');
     row.whatsapp = digits;
     if (d.consentimento !== true) return out_('no_consent');
     for (var i = 1; i <= 15; i++) if (!/^[ABCD]$/.test(row['q' + i])) return out_('bad_answer');
@@ -73,6 +73,16 @@ function clean_(v) {
   if (/^[=+\-@]/.test(s)) s = "'" + s; // evita injeção de fórmula na planilha
   return s;
 }
+
+// WhatsApp BR: só dígitos; tira o 55 do país quando sobram 10 ou 11 dígitos depois dele
+// (DDD 55 com 11 dígitos, ex. 55987654321, fica como está). Mesma regra de app.js.
+function normalizeBrPhone_(v) {
+  var d = String(v === undefined || v === null ? '' : v).replace(/\D/g, '');
+  return /^55\d{10,11}$/.test(d) ? d.slice(2) : d;
+}
+
+// Celular BR: DDD + 9 + 8 dígitos (11 no total) depois de normalizar.
+function isValidBrMobile_(v) { return /^\d{2}9\d{8}$/.test(normalizeBrPhone_(v)); }
 
 function sheet_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();

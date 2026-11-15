@@ -124,7 +124,7 @@ function renderContact() {
     <p class="small" style="font-size:16px">Diga para quem é o resultado. Ele aparece na próxima tela.</p>
     <form id="f" class="stack" novalidate>
       <div class="field"><label for="nome">Seu nome</label><input id="nome" name="nome" autocomplete="name" placeholder="Dra. Ana Souza" required maxlength="120"><p class="err">Informe seu nome.</p></div>
-      <div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 98765-4321" required><p class="err">Informe um WhatsApp com DDD.</p></div>
+      <div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 98765-4321" required><p class="err">Informe um celular com DDD, no formato (11) 98765-4321.</p></div>
       <div class="field"><label for="clinica">Nome da clínica</label><input id="clinica" name="clinica" autocomplete="organization" placeholder="Clínica Vida" required maxlength="120"><p class="err">Informe o nome da clínica.</p></div>
       <div class="field"><label for="especialidade">Especialidade</label><input id="especialidade" name="especialidade" placeholder="Dermatologia" required maxlength="120"><p class="err">Informe a especialidade.</p></div>
       <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="website">Site</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -139,7 +139,7 @@ function renderContact() {
   $("#f").onsubmit = async e => {
     e.preventDefault();
     const f = e.target, v = id => $("#" + id).value.trim();
-    const checks = { nome: v("nome").length > 1, whatsapp: /^\d{10,11}$/.test(v("whatsapp").replace(/\D/g, "")), clinica: v("clinica").length > 1, especialidade: v("especialidade").length > 1 };
+    const checks = { nome: v("nome").length > 1, whatsapp: isValidBrMobile(v("whatsapp")), clinica: v("clinica").length > 1, especialidade: v("especialidade").length > 1 };
     Object.entries(checks).forEach(([k, ok]) => $("#" + k).closest(".field").classList.toggle("invalid", !ok));
     const ferr = $("#ferr");
     if (!Object.values(checks).every(Boolean)) return;
@@ -149,7 +149,7 @@ function renderContact() {
     state.lead = { nome: v("nome"), clinica: v("clinica"), especialidade: v("especialidade") };
     const u = Object.fromEntries([...params].filter(([k]) => k.startsWith("utm_")));
     const payload = { timestamp: new Date().toISOString(), nome: v("nome"), clinica: v("clinica"), especialidade: v("especialidade"),
-      whatsapp: v("whatsapp").replace(/\D/g, ""), consentimento: true, website: v("website"),
+      whatsapp: normalizeBrPhone(v("whatsapp")), consentimento: true, website: v("website"),
       utm_source: u.utm_source || "", utm_campaign: u.utm_campaign || "", utm_medium: u.utm_medium || "", utm_content: u.utm_content || "",
       origem: params.get("src") || "", referrer: document.referrer || "direto",
       nota_geral: r.overall, faixa: r.level.label };
@@ -161,8 +161,16 @@ function renderContact() {
     renderResult();
   };
 }
+/** WhatsApp BR: só dígitos; tira o 55 do país quando sobram 10 ou 11 dígitos depois dele
+ *  (DDD 55 com 11 dígitos, ex. 55987654321, fica como está). Mesma regra em apps-script/Code.gs. */
+function normalizeBrPhone(val) {
+  const d = String(val == null ? "" : val).replace(/\D/g, "");
+  return /^55\d{10,11}$/.test(d) ? d.slice(2) : d;
+}
+/** Celular BR: DDD + 9 + 8 dígitos (11 no total) depois de normalizar. */
+function isValidBrMobile(val) { return /^\d{2}9\d{8}$/.test(normalizeBrPhone(val)); }
 function maskPhone(val) {
-  const d = val.replace(/\D/g, "").slice(0, 11);
+  const d = normalizeBrPhone(String(val).replace(/\D/g, "").slice(0, 13));  // até 13: +55 + DDD + 9 dígitos
   if (d.length <= 2) return d.length ? "(" + d : "";
   if (d.length <= 6) return `(${d.slice(0,2)}) ${d.slice(2)}`;
   if (d.length <= 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
@@ -281,3 +289,5 @@ function runDemo(screen) {
 }
 
 init().catch(e => { console.error(e); app.innerHTML = `<p class="alert">Não conseguimos carregar o diagnóstico. Atualize a página e tente de novo.</p>`; });
+
+if (typeof module !== "undefined" && module.exports) { module.exports = { normalizeBrPhone, isValidBrMobile, maskPhone }; }  // testes Node
