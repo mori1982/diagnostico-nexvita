@@ -149,9 +149,8 @@ function renderContact() {
       <div class="field"><label for="clinica">Nome da clínica</label><input id="clinica" name="clinica" autocomplete="organization" placeholder="Clínica Vida" required maxlength="120"><p class="err">Informe o nome da clínica.</p></div>
       <div class="field"><label for="especialidade">Especialidade</label><input id="especialidade" name="especialidade" placeholder="Dermatologia" required maxlength="120"><p class="err">Informe a especialidade.</p></div>
       <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="website">Site</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-      <label class="consent"><input type="checkbox" id="lgpd"><span>Concordo que a NexVita use estes dados para enviar meu resultado e entrar em contato, conforme a <a href="privacidade.html" id="priv" target="_blank" rel="noopener">Política de Privacidade</a> (LGPD). Posso pedir a exclusão a qualquer momento.</span></label>
+      <label class="consent"><input type="checkbox" id="lgpd"><span>Concordo que a NexVita use meus dados para entrar em contato comigo e para medir o resultado dos seus anúncios, conforme a <a href="privacidade.html" id="priv" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label>
       <button class="btn btn-primary" id="send" type="submit">Ver meu resultado</button>
-      <p class="lock">🔒 Seus dados não são compartilhados.</p>
     </form>
   </section>`);
   const tel = $("#whatsapp");
