@@ -26,6 +26,27 @@ const state = { data: null, i: 0, answers: {}, lead: null, result: null };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const params = new URLSearchParams(location.search);
 
+/* ---------- Atribuição (first-party, sessionStorage desta origem) ----------
+ * gclid/gbraid/wbraid + utm_* + src são lidos da URL no carregamento e guardados na hora em sessionStorage,
+ * sem depender do banner de cookies (não lê cookies do Google). Valor ausente na URL = reutiliza o guardado.
+ * Os 3 identificadores de clique andam juntos: se a URL traz qualquer um, os 3 vêm da URL (não mistura cliques). */
+const ATTR_KEY = "nv_attr", CLICK_IDS = ["gclid", "gbraid", "wbraid"];
+const ATTR_FIELDS = [...CLICK_IDS, "utm_source", "utm_campaign", "utm_medium", "utm_content", "src"];
+function captureAttribution(search, store) {
+  const q = new URLSearchParams(search), get = k => (q.get(k) || "").trim().slice(0, 200);
+  let saved = {};
+  try { saved = JSON.parse(store.getItem(ATTR_KEY) || "{}") || {}; } catch (e) {}
+  const urlHasClick = CLICK_IDS.some(get), out = {};
+  ATTR_FIELDS.forEach(k => { out[k] = get(k) || (urlHasClick && CLICK_IDS.includes(k) ? "" : String(saved[k] || "")); });
+  try { store.setItem(ATTR_KEY, JSON.stringify(out)); } catch (e) {}
+  return out;
+}
+function sessionStore() {
+  try { if (window.sessionStorage) return window.sessionStorage; } catch (e) {}
+  return { getItem: () => null, setItem() {} };  // sem sessionStorage (bloqueado): só a URL atual
+}
+const attr = captureAttribution(location.search, sessionStore());
+
 async function init() {
   state.data = await (await fetch("questions.json")).json();
   const demo = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? params.get("demo") : null;               // ?demo=question|contact|result|cards (previews)
@@ -128,10 +149,8 @@ function renderContact() {
       <div class="field"><label for="clinica">Nome da clínica</label><input id="clinica" name="clinica" autocomplete="organization" placeholder="Clínica Vida" required maxlength="120"><p class="err">Informe o nome da clínica.</p></div>
       <div class="field"><label for="especialidade">Especialidade</label><input id="especialidade" name="especialidade" placeholder="Dermatologia" required maxlength="120"><p class="err">Informe a especialidade.</p></div>
       <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="website">Site</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-      <label class="consent"><input type="checkbox" id="lgpd" required><span>Concordo que a NexVita use estes dados para enviar meu resultado e entrar em contato, conforme a <a href="privacidade.html" id="priv" target="_blank" rel="noopener">Política de Privacidade</a> (LGPD). Posso pedir a exclusão a qualquer momento.</span></label>
-      <div id="ferr" class="alert" hidden></div>
+      <label class="consent"><input type="checkbox" id="lgpd"><span>Concordo que a NexVita use meus dados para entrar em contato comigo e para medir o resultado dos seus anúncios, conforme a <a href="privacidade.html" id="priv" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label>
       <button class="btn btn-primary" id="send" type="submit">Ver meu resultado</button>
-      <p class="lock">🔒 Seus dados não são compartilhados.</p>
     </form>
   </section>`);
   const tel = $("#whatsapp");
@@ -141,17 +160,16 @@ function renderContact() {
     const f = e.target, v = id => $("#" + id).value.trim();
     const checks = { nome: v("nome").length > 1, whatsapp: isValidBrMobile(v("whatsapp")), clinica: v("clinica").length > 1, especialidade: v("especialidade").length > 1 };
     Object.entries(checks).forEach(([k, ok]) => $("#" + k).closest(".field").classList.toggle("invalid", !ok));
-    const ferr = $("#ferr");
     if (!Object.values(checks).every(Boolean)) return;
-    if (!$("#lgpd").checked) { ferr.hidden = false; ferr.textContent = "Marque o consentimento para ver o resultado."; return; }
-    ferr.hidden = true;
+    // Consentimento é opcional: sem marca o lead é enviado com consentimento=false (o Apps Script grava em Leads
+    // e não leva à planilha de upload do Google Ads).
     const r = score(); state.result = r;
     state.lead = { nome: v("nome"), clinica: v("clinica"), especialidade: v("especialidade") };
-    const u = Object.fromEntries([...params].filter(([k]) => k.startsWith("utm_")));
     const payload = { timestamp: new Date().toISOString(), nome: v("nome"), clinica: v("clinica"), especialidade: v("especialidade"),
-      whatsapp: normalizeBrPhone(v("whatsapp")), consentimento: true, website: v("website"),
-      utm_source: u.utm_source || "", utm_campaign: u.utm_campaign || "", utm_medium: u.utm_medium || "", utm_content: u.utm_content || "",
-      origem: params.get("src") || "", referrer: document.referrer || "direto",
+      whatsapp: normalizeBrPhone(v("whatsapp")), consentimento: $("#lgpd").checked === true, website: v("website"),
+      utm_source: attr.utm_source, utm_campaign: attr.utm_campaign, utm_medium: attr.utm_medium, utm_content: attr.utm_content,
+      gclid: attr.gclid, gbraid: attr.gbraid, wbraid: attr.wbraid,
+      origem: attr.src, referrer: document.referrer || "direto",
       nota_geral: r.overall, faixa: r.level.label };
     state.data.questions.forEach(q => payload[q.id] = "ABCD"[state.answers[q.id]]);
     r.areas.forEach(a => payload["nota_" + a.id] = a.score);
@@ -290,4 +308,4 @@ function runDemo(screen) {
 
 init().catch(e => { console.error(e); app.innerHTML = `<p class="alert">Não conseguimos carregar o diagnóstico. Atualize a página e tente de novo.</p>`; });
 
-if (typeof module !== "undefined" && module.exports) { module.exports = { normalizeBrPhone, isValidBrMobile, maskPhone }; }  // testes Node
+if (typeof module !== "undefined" && module.exports) { module.exports = { normalizeBrPhone, isValidBrMobile, maskPhone, captureAttribution }; }  // testes Node

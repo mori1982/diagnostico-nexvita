@@ -33,6 +33,8 @@ function loadGs() {
     LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
     SpreadsheetApp: { getActiveSpreadsheet: () => ({ getSheetByName: () => sheet, insertSheet: () => sheet, getUrl: () => "https://example.invalid/planilha" }) },
     MailApp: { sendEmail: m => calls.sendEmail.push(m) },
+    PropertiesService: { getScriptProperties: () => ({ getProperty: () => null }) },  // sem planilha de upload
+    Utilities: { DigestAlgorithm: {}, Charset: {}, computeDigest: () => [] },        // hash coberto em test_upload.js
   };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, "apps-script", "Code.gs"), "utf8"), sandbox, { filename: "Code.gs" });
   return { gs: sandbox, calls };
