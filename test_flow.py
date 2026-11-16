@@ -26,12 +26,11 @@ def run(p, choice, prefix, fail=False):
     pg.type("#whatsapp","119123"); short=pg.input_value("#whatsapp"); pg.click("#send")
     inv_short = pg.locator(".field.invalid #whatsapp").count()==1
     pg.fill("#whatsapp",""); pg.type("#whatsapp","11912345678"); mask = pg.input_value("#whatsapp")
-    pg.click("#send"); err_consent = pg.text_content("#ferr")
     pg.check("#lgpd"); shot("3-contato"); t0=time.time(); pg.click("#send")
     pg.wait_for_selector("#r-areas"); t_result = round(time.time()-t0,2)
     pg.wait_for_timeout(4500 if fail else 500)  # deixa o retry acontecer
     shot("4-resultado")
-    res = {"mascara":mask, "curto_invalido":inv_short, "mascara_curta":short, "erro_sem_consent":err_consent,
+    res = {"mascara":mask, "curto_invalido":inv_short, "mascara_curta":short,
       "tempo_ate_resultado_s":t_result, "geral":pg.text_content(".ring .val b"), "faixa":pg.text_content(".badge"),
       "areas":{e.get_attribute("data-area"):(e.get_attribute("data-score"),e.get_attribute("data-band")) for e in pg.locator("#r-areas > div").all()},
       "wa":pg.get_attribute("#r-wa","href"), "tentativas_envio":len(got), "payload":got[0] if got else None}
@@ -46,6 +45,7 @@ with sync_playwright() as p:
     assert m["geral"]=="0" and m["faixa"]=="Operação no limite" and all(v==("0","low") for v in m["areas"].values()) and m["tentativas_envio"]==2
     assert C["geral"]=="75" and C["faixa"]=="Gestão em evolução" and all(v==("75","mid") for v in C["areas"].values())
     assert M["payload"]["q1"]=="D" and M["payload"]["origem"]=="instagram" and M["payload"]["utm_source"]=="ig" and M["payload"]["whatsapp"]=="11912345678" and M["payload"]["website"]==""
+    assert M["payload"]["consentimento"] is True and M["payload"]["gclid"]=="" and M["payload"]["gbraid"]=="" and M["payload"]["wbraid"]==""
     # ENDPOINT vazio: nada enviado; demo só em localhost
     b=p.chromium.launch(); pg=b.new_page(); sent=[]
     pg.on("request", lambda r: r.method=="POST" and sent.append(r.url))

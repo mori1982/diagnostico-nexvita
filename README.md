@@ -62,3 +62,10 @@ Gerado em `<canvas>` puro (`makeCard("feed"|"story")` em `app.js`), 1080×1350 e
 - Payload plano no formato de `apps-script/Code.gs` (q1..q15 = A–D, nota_*, faixa, utm_*, origem=?src=, referrer, website=honeypot).
 - Insight por área: baixa <40, média 40–79, alta ≥80. Nota geral = round(média das áreas sem arredondar); faixa sobre a nota arredondada.
 - `?demo=` só funciona em localhost/127.0.0.1. Teste: `/workspace/diagnostico/.venv/bin/python test_flow.py`.
+
+## Conversão offline (gclid → planilha de upload do Google Ads)
+- `app.js` lê `gclid`/`gbraid`/`wbraid` + `utm_*` + `src` da URL no carregamento e guarda em `sessionStorage` (`nv_attr`, first-party, sem depender do banner de cookies; não lê cookies do Google). Sem o parâmetro na URL, reutiliza o guardado. O payload leva `gclid`, `gbraid`, `wbraid`.
+- O checkbox de consentimento não é obrigatório: sem marca o lead é enviado com `consentimento: false`, gravado em `Leads` e **não** vai para a planilha de upload.
+- `apps-script/Code.gs`: depois de gravar em `Leads` (mesmas colunas), se `consentimento === true` e houver identificador de clique ou telefone válido, acrescenta uma linha na 1ª aba da planilha de upload (arquivo separado; ID na Script Property `UPLOAD_SHEET_ID`, sem hardcode). Colunas: `Google Click ID`, `gbraid`, `wbraid`, `Conversion Name` (`Lead diagnóstico (importação)`), `Conversion Time` (`yyyy-MM-dd HH:mm:ss-03:00`), `Conversion Value` (1), `Conversion Currency` (BRL), `Order ID` (`diag-` + SHA-256 de `recebido_em` + E.164), `Phone` (SHA-256 hex do E.164). Sem a propriedade, o lead grava e o upload é pulado.
+- `reconcileUploadSheet()`: deduplicação por `Order ID` para um gatilho horário (instalar à mão no editor; não faz backfill da aba `Leads`).
+- Testes: `node --test test_whatsapp.js test_upload.js` e `python3 test_tracking.py` / `python3 test_flow.py` (Playwright).
